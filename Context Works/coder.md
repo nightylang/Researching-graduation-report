@@ -74,9 +74,9 @@ GO
 
 -- Seed Data for UI Component Testing
 INSERT INTO Employees (FirstName, LastName, Email, Role, IsActive) VALUES 
-('Sokha', 'Meng', 'sokha.meng@workspace.kh', 'Administrator', 1),
-('Borey', 'Chan', 'borey.chan@workspace.kh', 'Manager', 1),
-('Sophea', 'Phan', 'sophea.phan@workspace.kh', 'Employee', 1);
+('Ear', 'Amnath', 'amnath@rexgot.kh', 'Administrator', 1),
+('Khoun', 'Rotana', 'rotana@rexgot.kh', 'Manager', 1),
+('Siev', 'Eleang', 'siev.eleang@rexgot.kh', 'Employee', 1);
 
 INSERT INTO WorkspaceDesks (FloorNumber, DeskCode, IsAvailable, ZoneGroup) VALUES 
 (1, 'DSK-101', 1, 'Engineering'),
