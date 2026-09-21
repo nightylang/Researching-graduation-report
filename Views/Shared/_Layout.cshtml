@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyApp - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MayApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+   <header>
+      <!-- Locate your navigation link tags inside _Layout.cshtml and adjust them like this: -->
+      <ul class="navbar-nav flex-grow-1">
+        <!-- 1. Route to Public Mobile Check-In Gateway -->
+        <li class="nav-item">
+           <a class="nav-link text-dark" asp-area="" asp-controller="CheckIn" asp-action="Index">Presence Handshake Gateway</a>
+        </li>
+        <li class="nav-item">
+           <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Identity Dashboard (CRUD)</a>
+        </li>
+
+        <!-- 3. Route to Operations & Desk Manager -->
+        <li class="nav-item">
+           <a class="nav-link text-dark" asp-area="" asp-controller="Shift" asp-action="Index">Shift/Desk Scheduler</a>
+        </li>
+      </ul>
+   </header>
+   <main>
+      @RenderBody()
+   </main>
+   <footer>
+       &copy; @DateTime.Now.Year
+   </footer>
+</body>
+</html>
