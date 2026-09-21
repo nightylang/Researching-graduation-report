@@ -1,0 +1,158 @@
+@using System.Data
+@model DataSet
+@{
+    ViewData["Title"] = "Operations & Resource Scheduler";
+    
+    // Extract individual tables from our unified DataSet parameter
+    DataTable shiftsTable = Model.Tables[0];
+    DataTable desksTable = Model.Tables[1];
+    DataTable employeesTable = Model.Tables[2];
+}
+
+<div class="container-fluid mt-4">
+    <!-- Top Row: Alerts Notification Hub -->
+    <div class="row">
+        <div class="col-12">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+                    <strong>🛡️ Allocation Commited:</strong> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0" role="alert">
+                    <strong>⚠️ Scheduling Validation Error:</strong> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Panel: Allocation Configurator Form -->
+        <div class="col-xl-4 col-lg-5 col-sm-12 mb-4">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-dark text-white py-3">
+                    <h5 class="mb-0">Deploy Shift Allocation Mapping</h5>
+                    <small class="text-muted">Binds Human Capital to Physical Office Desk Assets</small>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-controller="Shift" asp-action="AllocateShift" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Employee Dynamic Selection Dropdown -->
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Select Active Employee Cluster</label>
+                            <select class="form-select form-select-lg" name="employeeId" required>
+                                <option value="" disabled selected>-- Select Authenticated Staff --</option>
+                                @foreach (DataRow row in employeesTable.Rows)
+                                {
+                                    <option value="@row["EmployeeID"]">@row["FullName"] (ID: #@row["EmployeeID"])</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Hot-Desking Physical Desk Dropdown -->
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Assign Hot-Desk Hardware Asset</label>
+                            <select class="form-select form-select-lg" name="deskId" required>
+                                <option value="" disabled selected>-- Select Unallocated Workspace --</option>
+                                @foreach (DataRow row in desksTable.Rows)
+                                {
+                                    <option value="@row["DeskID"]">Desk @row["DeskCode"] — Floor @row["FloorNumber"]</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Shift Date Input -->
+                        <div class="mb-3">
+                            <label class="form-label font-weight-bold">Target Operational Date</label>
+                            <input type="date" class="form-control form-control-lg" name="shiftDate" min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+                        </div>
+
+                        <!-- Time Constraints Inputs -->
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label font-weight-bold">Start Frame</label>
+                                <input type="time" class="form-control" name="startTime" required value="08:00" />
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label font-weight-bold">End Frame</label>
+                                <input type="time" class="form-control" name="endTime" required value="17:00" />
+                            </div>
+                        </div>
+
+                        <!-- Transaction Execution Button -->
+                        <div class="d-grid gap-2 mt-3">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                                Execute Database Schedule Allocation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Live Scheduled Shift Ledger -->
+        <div class="col-xl-8 col-lg-7 col-sm-12">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Active Shift & Desk Topography Ledger</h5>
+                    <span class="badge bg-white text-primary fw-bold">Live Schedules: @shiftsTable.Rows.Count</span>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Shift ID</th>
+                                    <th>Assigned Personnel</th>
+                                    <th>Desk Code & Floor Location</th>
+                                    <th>Target Date</th>
+                                    <th>Temporal Boundaries</th>
+                                    <th class="pe-3 text-end">State status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (shiftsTable.Rows.Count > 0)
+                                {
+                                    @foreach (DataRow row in shiftsTable.Rows)
+                                    {
+                                        string badgeClass = row["Status"].ToString() == "Scheduled" ? "bg-info text-dark" : "bg-success text-white";
+                                        <tr>
+                                            <td class="ps-3 font-monospace text-muted fw-bold">#@row["ShiftID"]</td>
+                                            <td class="fw-bold text-dark">@row["EmployeeName"]</td>
+                                            <td>
+                                                <span class="text-secondary font-monospace"><i class="bi bi-geo-alt"></i> @row["DeskDetails"]</span>
+                                            </td>
+                                            <td>@Convert.ToDateTime(row["ShiftDate"]).ToString("dd-MMM-yyyy")</td>
+                                            <td>
+                                                <small class="badge bg-light text-dark font-monospace">
+                                                    @row["StartTime"] - @row["EndTime"]
+                                                </small>
+                                            </td>
+                                            <td class="pe-3 text-end">
+                                                <span class="badge rounded-pill @badgeClass">@row["Status"]</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">
+                                            <div class="mb-2">📭</div>
+                                            No shift maps or spatial hot-desks have been committed to the server cluster ledger.
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
