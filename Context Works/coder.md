@@ -12,9 +12,9 @@
 
 ## 🗄️ Week 1: Relational Database Schema Infrastructure
 *   **Corresponding Thesis Section:**
-*       Chapter 3, Section 3.2 (Relational Database Schema Design)
+       Chapter 3, Section 3.2 (Relational Database Schema Design)
 *   **Target Objective:**
-*       To build an ACID-compliant transaction backend optimized for local hosting environments.
+       To build an ACID-compliant transaction backend optimized for local hosting environments.
 
 Execute this script inside your **SQL Server Management Studio (SSMS)** to generate your data structures and seed files:
 
@@ -88,10 +88,9 @@ GO
 ---
 
 ## 🛡️ Week 2: Centralized App Setup & Optimized Data Access Layer
-*   **Corresponding Thesis Section:**
-*       Chapter 3, Section 3.5 (Data Access Optimization & Code Refactoring Framework)
+*   **Corresponding Thesis Section:**.            Chapter 3, Section 3.5 (Data Access Optimization & Code Refactoring Framework)
 *   **Target Objective:**
-*       To resolve memory-leak hazards on localized servers by implementing thread-safe global connection pooling.
+       To resolve memory-leak hazards on localized servers by implementing thread-safe global connection pooling.
 
 ### File A: `/appsettings.json`
 
@@ -103,9 +102,9 @@ GO
 
 ## 💻 Week 3: Dashboard Control Panels & CRUD Engines
 *   **Corresponding Thesis Section:**
-*       Chapter 4, Section 4.2 (Component Blueprint & Identity Ledgers)
+       Chapter 4, Section 4.2 (Component Blueprint & Identity Ledgers)
 *   **Target Objective:**
-*       To construct the administrative dashboard logic managing employees and hot-desking resource allocations.
+       To construct the administrative dashboard logic managing employees and hot-desking resource allocations.
 
 ### File A: `/Controllers/EmployeeController.cs`
 
@@ -115,9 +114,9 @@ GO
 
 ## 🌐 Week 4: Public Mobile Portal & Security Telemetry Handshake
 *    **Corresponding Thesis Section:**
-*         Chapter 4, Section 4.3 (Network Geofencing & Fraud-Prevention Interception)
+          Chapter 4, Section 4.3 (Network Geofencing & Fraud-Prevention Interception)
 *    **Target Objective:**
-*         To validate employee locations at runtime via IP address logging, preventing off-site time fraud without physical hardware.
+         To validate employee locations at runtime via IP address logging, preventing off-site time fraud without physical hardware.
 
 ### File A: `/Controllers/CheckInController.cs`
 
@@ -125,8 +124,6 @@ GO
 
 ---
 
-<FollowUp>
-Now that your complete code framework, including the text/html layouts, is restored, let me know if you would like me to:
-* Prepare a **targeted list of sample evaluation datasets** for Chapter 5 to mock your latencies.
-* Or detail the **database schema configuration** for the `Shifts` and `Desks` views to finalize your dashboard features.
-</FollowUp>
+## FollowUp
+*  **targeted list of sample evaluation datasets** for Chapter 5 to mock your latencies.
+*  **database schema configuration** for the `Shifts` and `Desks` views to finalize your dashboard features.
