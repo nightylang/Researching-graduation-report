@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Secure Telemetry Verification Hub";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Warning"] != null)
+{
+    <div class="alert alert-warning">@TempData["Warning"]</div>
+}
+
+<h1>Workspace Verification Gateway</h1>
+<h3>Hardware-Free Geofence Matrix</h3>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div>
+        <label for="employeeId">Employee ID Token</label>
+        <input type="text" id="employeeId" name="EmployeeId" required />
+    </div>
+
+    <div>
+        <label for="shiftToken">Active Shift Token</label>
+        <input type="text" id="shiftToken" name="ShiftToken" required />
+    </div>
+
+    <!-- Hidden input populated by the JavaScript footprint profile below -->
+    <input type="hidden" id="deviceId" name="DeviceId" />
+
+    <button type="submit">Execute Presence Handshake</button>
+</form>
+
+<p>System programmatically captures incoming network routing IPs.</p>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Collect hardware layer metadata details to record system footprint tracking profiles
+    const platformDetails = navigator.platform || "Unknown Device Hardware";
+    const userAgentDetails = navigator.userAgent.substring(0, 30);
+    
+    // Fixed: Wrapped the template literal in backticks for correct JavaScript interpolation
+    document.getElementById("deviceId").value = `${platformDetails} | ${userAgentDetails}`;
+});
+</script>
