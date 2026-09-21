@@ -107,5 +107,51 @@
                 </div>
             </div>
         </div>
+       <!-- Data Grid Display Panel -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-secondary text-white py-3">
+                    <h5 class="mb-0">Active Relational Database Identity Profiles</h5>
+                </div>
+                <div class="card-body p-0">
+                    @if (Model != null && Model.Rows.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0 align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID Token</th>
+                                        <th>Identity Name</th>
+                                        <th>Email Destination</th>
+                                        <th>Role Classification</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (DataRow row in Model.Rows)
+                                    {
+                                        <tr>
+                                            <td><strong>#@row["EmployeeID"]</strong></td>
+                                            <td>@row["LastName"], @row["FirstName"]</td>
+                                            <td>@row["Email"]</td>
+                                            <td>@row["Role"]</td>
+                                            <td>
+                                                <a asp-controller="Employee" asp-action="Edit" asp-route-id="@row["EmployeeID"]" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="p-4 text-center text-muted">
+                            <p class="mb-0">No data records allocated.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
 </div>
