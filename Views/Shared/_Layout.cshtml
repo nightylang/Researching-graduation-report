@@ -32,5 +32,12 @@
    <footer>
        &copy; @DateTime.Now.Year
    </footer>
+   <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Site-specific custom JavaScript -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Allows views to inject custom scripts (e.g., validation files) -->
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
